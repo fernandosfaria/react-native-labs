@@ -1,52 +1,153 @@
 import React from 'react';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack'; 
+import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-import { createDrawerNavigator } from 'react-navigation-drawer'
-import { Text, View, Icon } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { createDrawerNavigator } from 'react-navigation-drawer';
 
-class HomeScreen extends React.Component {
-    render() {
-        return (
-            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} >
-                <Text>Home!</Text>
-            </View>
-        )
-    }
-}
+import Example from './pages/example';
 
-class SettingsScreen extends React.Component {
-    render() {
-        return (
-            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} >
-                <Text>Settings!</Text>
-            </View>
-        )
-    }
-}
+const AuthStack = createStackNavigator({
+  Landing: {
+    screen: Example,
+    navigationOptions: {
+      headerTitle: 'Auth',
+    },
+  },
+  SignIn: {
+    screen: Example,
+    navigationOptions: {
+      headerTitle: 'Sign In',
+    },
+  },
+  CreateAccount: {
+    screen: Example,
+    navigationOptions: {
+      headerTitle: 'Create Account',
+    },
+  },
+  ForgotPassword: {
+    screen: Example,
+    navigationOptions: {
+      headerTitle: 'Forgot Password',
+    },
+  },
+  ResetPassword: {
+    screen: Example,
+    navigationOptions: {
+      headerTitle: 'Reset Password',
+    },
+  },
+});
 
-const TabNavigator = createBottomTabNavigator (
-    {
-        screen: HomeScreen,
-        Settings: SettingsScreen,
-    }
+const FeedStack = createStackNavigator({
+  Feed: {
+    screen: Example,
+    navigationOptions: {
+      headerTitle: 'Feed',
+    },
+  },
+  Details: {
+    screen: Example,
+    navigationOptions: {
+      headerTitle: 'Details',
+    },
+  },
+});
+
+const SearchStack = createStackNavigator({
+  Search: {
+    screen: Example,
+    navigationOptions: {
+      headerTitle: 'Search',
+    },
+  },
+  Details: {
+    screen: Example,
+    navigationOptions: {
+      headerTitle: 'Details',
+    },
+  },
+});
+
+const DiscoverStack = createStackNavigator({
+  Discover: {
+    screen: Example,
+    navigationOptions: {
+      headerTitle: 'Discover',
+    },
+  },
+  Details: {
+    screen: Example,
+    navigationOptions: {
+      headerTitle: 'Details',
+    },
+  },
+});
+
+const MainTabs = createBottomTabNavigator({
+  Feed: {
+    screen: FeedStack,
+    navigationOptions: {
+      tabBarLabel: 'Feed',
+    },
+  },
+  Search: {
+    screen: SearchStack,
+    navigationOptions: {
+      tabBarLabel: 'Search',
+    },
+  },
+  Discover: {
+    screen: DiscoverStack,
+    navigationOptions: {
+      tabBarLabel: 'Discover',
+    },
+  },
+});
+
+const SettingsStack = createStackNavigator({
+  SettingsList: {
+    screen: Example,
+    navigationOptions: {
+      headerTitle: 'Settings List',
+    },
+  },
+  Profile: {
+    screen: Example,
+    navigationOptions: {
+      headerTitle: 'Profile',
+    },
+  },
+});
+
+const MainDrawer = createDrawerNavigator({
+  MainTabs: MainTabs,
+  Settings: SettingsStack,
+});
+
+const AppModalStack = createStackNavigator(
+  {
+    App: MainDrawer,
+    Promotion1: {
+      screen: Example,
+    },
+  },
+  {
+    mode: 'modal',
+    headerMode: 'none',
+  }
 );
 
-// const MainNavigator = createStackNavigator({
-//     A: {
-//         screen: Main,
-//         navigationOptions: () => ({
-//             title: "JLC Rental",
-//             headerStyle: {
-//                 backgroundColor: "#DA552F",
-//                 alignContent: "center",
-//             },
-//             headerTintColor: "#FFF",
-//             header
-//         }),
-//     }
-// });
+const App = createSwitchNavigator({
+  Loading: {
+    screen: Example,
+  },
+  Auth: {
+    screen: AuthStack,
+  },
+  App: {
+    screen: AppModalStack,
+  },
+});
 
-const App = createAppContainer(TabNavigator);
-export default App;
+export default createAppContainer(App);
